@@ -65,18 +65,70 @@ MODEL GRAPH:
 
 
 Program
+```
+clc; clear; close;
 
+// Given parameters
+Am = 12.1;      // Message amplitude
+Ac = 24.2;      // Carrier amplitude
+Fm = 600;       // Message frequency (Hz)
+Fc = 6000;      // Carrier frequency (Hz)
+Fs = 55000;     // Sampling frequency (Hz)
+kf = 75;        // Frequency sensitivity (Hz per volt)
 
+// Time vector
+t = 0:1/Fs:0.005;   // 5 ms duration
+
+// Message signal
+m = Am * sin(2 * %pi * Fm * t);
+
+// Integrate message signal for frequency modulation
+int_m = cumsum(m) / Fs;
+
+// FM Modulated signal
+s_fm = Ac * cos(2 * %pi * Fc * t + 2 * %pi * kf * int_m);
+
+// Plotting signals
+subplot(3,1,1)
+plot(t, m)
+title('Message Signal')
+xlabel('Time (s)')
+ylabel('Amplitude')
+xgrid()
+
+subplot(3,1,2)
+plot(t, cos(2 * %pi * Fc * t))
+title('Carrier Signal')
+xlabel('Time (s)')
+ylabel('Amplitude')
+xgrid()
+
+subplot(3,1,3)
+plot(t, s_fm)
+title('FM Modulated Signal')
+xlabel('Time (s)')
+ylabel('Amplitude')
+xgrid()
+
+// Display tabulation of sample values
+disp("   Time(s)      Message(V)   FM Modulated(V)");
+for i = 1:10:length(t)
+    mprintf("%10.6f   %10.4f   %10.4f\n", t(i), m(i), s_fm(i));
+end
+```
 Output Waveform
+<img width="1679" height="1058" alt="Screenshot 2025-10-27 212911" src="https://github.com/user-attachments/assets/60391581-e31b-40ff-8f9f-ee46be6dcad1" />
 
 
 
 Tabulation
 
+![WhatsApp Image 2025-11-25 at 23 21 36_0d7aabd2](https://github.com/user-attachments/assets/4b9afb73-9fa5-43ba-8899-a928001965e8)
 
 
 Calculation
 
+![WhatsApp Image 2025-11-25 at 23 44 51_1a202ebe](https://github.com/user-attachments/assets/1ba5067d-7bf6-470f-ac0d-978a81871e01)
 
 
 Frequency Deviation Practical = 
@@ -89,6 +141,7 @@ Modulation Index Theoretical	=
 
 RESULT:
 
-Thus, the frequency modulation and demodulation is successfully done and the output is experimentally verified.
+![WhatsApp Image 2025-11-25 at 23 45 59_3da00a2c](https://github.com/user-attachments/assets/ab7f3d31-14ef-4757-9eff-7c98bed6d5f7)
+
 
 
